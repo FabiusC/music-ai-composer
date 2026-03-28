@@ -21,6 +21,13 @@ type MusicCanvasProps = {
   tempos: typeof TEMPO_OPTIONS;
   currentDuration: NoteDuration;
   durations: NoteDuration[];
+  agentLabel?: string;
+  recommendationTitle?: string;
+  recommendationReason?: string;
+  onLike?: () => void;
+  onSkip?: () => void;
+  onSave?: () => void;
+  onClearMemory?: () => void;
   onPlay: () => void;
   onStop: () => void;
   onReset: () => void;
@@ -28,27 +35,9 @@ type MusicCanvasProps = {
   onChangeTempo: (bpm: number) => void;
 };
 
-const MELODY_NOTE_LANES = [
-  "C5",
-  "B4",
-  "A4",
-  "G4",
-  "F4",
-  "E4",
-  "D4",
-  "C4",
-];
+const MELODY_NOTE_LANES = ["C5", "B4", "A4", "G4", "F4", "E4", "D4", "C4"];
 
-const CHORD_NOTE_LANES = [
-  "C4",
-  "B3",
-  "A3",
-  "G3",
-  "F3",
-  "E3",
-  "D3",
-  "C3",
-];
+const CHORD_NOTE_LANES = ["C4", "B3", "A3", "G3", "F3", "E3", "D3", "C3"];
 
 const STEPS = 320;
 
@@ -86,6 +75,13 @@ export default function MusicCanvas({
   tempos,
   currentDuration,
   durations,
+  agentLabel,
+  recommendationTitle,
+  recommendationReason,
+  onLike,
+  onSkip,
+  onSave,
+  onClearMemory,
   onPlay,
   onStop,
   onReset,
@@ -103,7 +99,7 @@ export default function MusicCanvas({
   const [playheadX, setPlayheadX] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
 
-  const CELL_HEIGHT = 44;
+  const CELL_HEIGHT = 24;
   const TRIGGER_X = 0;
   const STEP_WIDTH = 80; // Ancho fijo de cada paso
   const stepWidth = STEP_WIDTH;
@@ -193,7 +189,7 @@ export default function MusicCanvas({
     const pulseIndex = Math.floor(playheadX / stepWidth);
     const scrollLeft = Math.max(
       0,
-      pulseIndex * STEP_WIDTH - containerWidth / 2 + STEP_WIDTH / 2
+      pulseIndex * STEP_WIDTH - containerWidth / 2 + STEP_WIDTH / 2,
     );
 
     pulseContainerRef.current.scrollLeft = scrollLeft;
@@ -231,7 +227,10 @@ export default function MusicCanvas({
       break;
     }
 
-    const clampedWidthSteps = Math.max(0.25, Math.min(durationSteps, totalSteps - blockStart));
+    const clampedWidthSteps = Math.max(
+      0.25,
+      Math.min(durationSteps, totalSteps - blockStart),
+    );
     noteBlocks.push({
       key: `note-${idx}-${note}-${duration}`,
       note,
@@ -275,7 +274,10 @@ export default function MusicCanvas({
       break;
     }
 
-    const clampedWidthSteps = Math.max(0.25, Math.min(durationSteps, totalSteps - blockStart));
+    const clampedWidthSteps = Math.max(
+      0.25,
+      Math.min(durationSteps, totalSteps - blockStart),
+    );
     chordBlocks.push({
       key: `chord-${idx}-${chord}-${duration}`,
       note: chord,
@@ -300,8 +302,7 @@ export default function MusicCanvas({
       .map((block) => {
         const screenLeft = block.rawLeft;
         const isVisible =
-          screenLeft + block.width >= 0 &&
-          screenLeft <= containerWidth;
+          screenLeft + block.width >= 0 && screenLeft <= containerWidth;
         const isActive =
           isPlaying &&
           screenLeft <= TRIGGER_X &&
@@ -331,8 +332,7 @@ export default function MusicCanvas({
       .map((block) => {
         const screenLeft = block.rawLeft;
         const isVisible =
-          screenLeft + block.width >= 0 &&
-          screenLeft <= containerWidth;
+          screenLeft + block.width >= 0 && screenLeft <= containerWidth;
         const isActive =
           isPlaying &&
           screenLeft <= TRIGGER_X &&
@@ -354,14 +354,18 @@ export default function MusicCanvas({
         <header className="canvas-header">
           <div className="canvas-header__title-group">
             <h2 className="canvas-header__title">Partitura y Piano Roll</h2>
-            <p className="canvas-header__subtitle">Agente Reactivo Simple en ejecucion</p>
+            <p className="canvas-header__subtitle">
+              {agentLabel ?? "Agente Reactivo Simple"} en ejecucion
+            </p>
           </div>
           <div className="canvas-controls">
             <label className="select-control">
               Genero
               <select
                 value={genre}
-                onChange={(event) => onChangeGenre(event.target.value as GenreId)}
+                onChange={(event) =>
+                  onChangeGenre(event.target.value as GenreId)
+                }
               >
                 {genres.map((genreOption) => (
                   <option key={genreOption.id} value={genreOption.id}>
@@ -399,11 +403,7 @@ export default function MusicCanvas({
             >
               Stop
             </button>
-            <button
-              type="button"
-              onClick={onReset}
-              className="btn btn-neutral"
-            >
+            <button type="button" onClick={onReset} className="btn btn-neutral">
               Reset
             </button>
           </div>
@@ -411,8 +411,48 @@ export default function MusicCanvas({
 
         <div className="genre-status">
           Genero activo:{" "}
-          <strong>{genres.find((item) => item.id === genre)?.label ?? genre}</strong>
+          <strong>
+            {genres.find((item) => item.id === genre)?.label ?? genre}
+          </strong>
         </div>
+
+        {recommendationTitle && (
+          <section className="model-recommendation model-recommendation--compact">
+            <p className="model-recommendation__label">Recomendacion actual</p>
+            <h3 className="model-recommendation__title">{recommendationTitle}</h3>
+            {recommendationReason && (
+              <p className="model-recommendation__reason">{recommendationReason}</p>
+            )}
+            {(onLike || onSkip || onSave || onClearMemory) && (
+              <div className="model-recommendation__actions">
+                {onLike && (
+                  <button type="button" className="btn btn-primary" onClick={onLike}>
+                    Like
+                  </button>
+                )}
+                {onSkip && (
+                  <button type="button" className="btn btn-secondary" onClick={onSkip}>
+                    Skip
+                  </button>
+                )}
+                {onSave && (
+                  <button type="button" className="btn btn-neutral" onClick={onSave}>
+                    Guardar
+                  </button>
+                )}
+                {onClearMemory && (
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={onClearMemory}
+                  >
+                    Limpiar Memoria
+                  </button>
+                )}
+              </div>
+            )}
+          </section>
+        )}
 
         {/* Piano Roll Visualization */}
         <div className="piano-roll">
@@ -424,7 +464,9 @@ export default function MusicCanvas({
                 <div
                   key={`key-${note}`}
                   className={`piano-roll__key ${
-                    note === currentNote && isPlaying ? "piano-roll__key--current" : ""
+                    note === currentNote && isPlaying
+                      ? "piano-roll__key--current"
+                      : ""
                   }`}
                 >
                   {note}
@@ -480,7 +522,9 @@ export default function MusicCanvas({
             </div>
             <div className="piano-roll__status-item">
               <span className="piano-roll__status-label">Duracion:</span>
-              <span className="piano-roll__status-value">{currentDuration}</span>
+              <span className="piano-roll__status-value">
+                {currentDuration}
+              </span>
             </div>
             <div className="piano-roll__status-item">
               <span className="piano-roll__status-label">Velocidad:</span>
@@ -503,7 +547,9 @@ export default function MusicCanvas({
                 <div
                   key={`chord-key-${note}`}
                   className={`piano-roll__key ${
-                    note === currentChord && isPlaying ? "piano-roll__key--current" : ""
+                    note === currentChord && isPlaying
+                      ? "piano-roll__key--current"
+                      : ""
                   }`}
                 >
                   {note}
@@ -571,6 +617,7 @@ export default function MusicCanvas({
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );

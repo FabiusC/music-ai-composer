@@ -33,7 +33,7 @@ const AGENTS: AgentMenuItem[] = [
     id: "model-based",
     title: "Basado en Modelos",
     subtitle: "Estado interno del entorno",
-    enabled: false,
+    enabled: true,
     icon: BrainCircuit,
   },
   {
@@ -68,7 +68,7 @@ export default function Sidebar({ selectedAgent, onSelectAgent }: SidebarProps) 
       </div>
 
       <div className="sidebar__info-box">
-        Solo el Agente Reactivo Simple esta habilitado en esta fase.
+        Esta fase incluye Agente Reactivo Simple y Basado en Modelos.
       </div>
 
       <nav className="sidebar__nav">

@@ -28,6 +28,18 @@ export class SimpleReactiveAgent implements IAgent {
       durations: ["4n", "2n", "8n"],
       weights: [5, 2, 3],
     },
+    classical: {
+      durations: ["2n", "4n", "8n"],
+      weights: [3, 5, 2],
+    },
+    jazz: {
+      durations: ["4n", "8n", "16n"],
+      weights: [4, 3, 3],
+    },
+    folk: {
+      durations: ["4n", "2n", "8n"],
+      weights: [4, 3, 3],
+    },
   };
 
   setGenre(genre: GenreId): void {

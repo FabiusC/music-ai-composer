@@ -38,7 +38,13 @@ export const NOTE_POOL = [
 
 export type NoteName = (typeof NOTE_POOL)[number];
 
-export type GenreId = "pop" | "ambiente" | "cuna";
+export type GenreId =
+  | "pop"
+  | "ambiente"
+  | "cuna"
+  | "classical"
+  | "jazz"
+  | "folk";
 
 export type TransitionRule = {
   next: NoteName;
@@ -438,6 +444,298 @@ const CUNA_CHORD_TABLE: Partial<Record<NoteName, TransitionRule[]>> = {
   ],
 };
 
+// ============ CLÁSICA: LINEAL, ELEGANTE Y FLUIDA ============
+
+const CLASSICAL_MELODY_TABLE: Partial<Record<NoteName, TransitionRule[]>> = {
+  C4: [
+    { next: "D4", interval: "+M2", weight: 3 },
+    { next: "E4", interval: "+M3", weight: 2 },
+    { next: "A4", interval: "+M6", weight: 1 },
+    { next: "C4", interval: "P1", weight: 2, cadence: true },
+  ],
+  D4: [
+    { next: "E4", interval: "+M2", weight: 3 },
+    { next: "F4", interval: "+m3", weight: 2 },
+    { next: "B4", interval: "+P5", weight: 1 },
+    { next: "D4", interval: "P1", weight: 2, cadence: true },
+  ],
+  E4: [
+    { next: "F4", interval: "+m2", weight: 3 },
+    { next: "G4", interval: "+m3", weight: 2 },
+    { next: "C5", interval: "+m6", weight: 1 },
+    { next: "E4", interval: "P1", weight: 2, cadence: true },
+  ],
+  F4: [
+    { next: "G4", interval: "+M2", weight: 3 },
+    { next: "A4", interval: "+M3", weight: 2 },
+    { next: "C5", interval: "+P5", weight: 1 },
+    { next: "F4", interval: "P1", weight: 2, cadence: true },
+  ],
+  G4: [
+    { next: "A4", interval: "+M2", weight: 3 },
+    { next: "B4", interval: "+m3", weight: 2 },
+    { next: "E4", interval: "-P4", weight: 1 },
+    { next: "G4", interval: "P1", weight: 2, cadence: true },
+  ],
+  A4: [
+    { next: "B4", interval: "+M2", weight: 3 },
+    { next: "C5", interval: "+m3", weight: 2 },
+    { next: "F4", interval: "-P5", weight: 1 },
+    { next: "A4", interval: "P1", weight: 2, cadence: true },
+  ],
+  B4: [
+    { next: "C5", interval: "+m2", weight: 3 },
+    { next: "D5", interval: "+m3", weight: 2 },
+    { next: "G4", interval: "-m3", weight: 1 },
+    { next: "B4", interval: "P1", weight: 2, cadence: true },
+  ],
+  C5: [
+    { next: "B4", interval: "-m2", weight: 2 },
+    { next: "A4", interval: "-m3", weight: 3 },
+    { next: "G4", interval: "-M3", weight: 2 },
+    { next: "C4", interval: "-P8", weight: 1 },
+    { next: "C5", interval: "P1", weight: 2, cadence: true },
+  ],
+};
+
+const CLASSICAL_CHORD_TABLE: Partial<Record<NoteName, TransitionRule[]>> = {
+  C3: [
+    { next: "G3", interval: "+P5", weight: 4 },
+    { next: "F3", interval: "+P4", weight: 2 },
+    { next: "C3", interval: "P1", weight: 2, cadence: true },
+  ],
+  D3: [
+    { next: "A3", interval: "+P5", weight: 4 },
+    { next: "G3", interval: "+P4", weight: 2 },
+    { next: "D3", interval: "P1", weight: 2, cadence: true },
+  ],
+  E3: [
+    { next: "B3", interval: "+P5", weight: 4 },
+    { next: "A3", interval: "+P4", weight: 2 },
+    { next: "E3", interval: "P1", weight: 2, cadence: true },
+  ],
+  F3: [
+    { next: "C4", interval: "+P5", weight: 4 },
+    { next: "B3", interval: "+P4", weight: 2 },
+    { next: "F3", interval: "P1", weight: 2, cadence: true },
+  ],
+  G3: [
+    { next: "D4", interval: "+P5", weight: 4 },
+    { next: "C4", interval: "+P4", weight: 2 },
+    { next: "G3", interval: "P1", weight: 2, cadence: true },
+  ],
+  A3: [
+    { next: "E4", interval: "+P5", weight: 4 },
+    { next: "D4", interval: "+P4", weight: 2 },
+    { next: "A3", interval: "P1", weight: 2, cadence: true },
+  ],
+  B3: [
+    { next: "F4", interval: "+P4", weight: 4 },
+    { next: "E4", interval: "+m3", weight: 2 },
+    { next: "B3", interval: "P1", weight: 2, cadence: true },
+  ],
+  C4: [
+    { next: "G4", interval: "+P5", weight: 4 },
+    { next: "F4", interval: "+P4", weight: 2 },
+    { next: "C3", interval: "-P8", weight: 1 },
+    { next: "C4", interval: "P1", weight: 2, cadence: true },
+  ],
+};
+
+// ============ JAZZ: IMPROVISATIVO CON BLUE NOTES ============
+
+const JAZZ_MELODY_TABLE: Partial<Record<NoteName, TransitionRule[]>> = {
+  C4: [
+    { next: "D4", interval: "+m2", weight: 2 },
+    { next: "E4", interval: "+M3", weight: 3 },
+    { next: "G4", interval: "+P5", weight: 2 },
+    { next: "B4", interval: "+m7", weight: 1 },
+    { next: "C3", interval: "-P8", weight: 1 },
+    { next: "C4", interval: "P1", weight: 2, cadence: true },
+  ],
+  D4: [
+    { next: "E4", interval: "+M2", weight: 2 },
+    { next: "F4", interval: "+m3", weight: 2 },
+    { next: "A4", interval: "+P5", weight: 3 },
+    { next: "C5", interval: "+m7", weight: 1 },
+    { next: "D4", interval: "P1", weight: 2, cadence: true },
+  ],
+  E4: [
+    { next: "F4", interval: "+m2", weight: 2 },
+    { next: "G4", interval: "+m3", weight: 3 },
+    { next: "B4", interval: "+P5", weight: 2 },
+    { next: "D5", interval: "+m7", weight: 1 },
+    { next: "E4", interval: "P1", weight: 2, cadence: true },
+  ],
+  F4: [
+    { next: "G4", interval: "+M2", weight: 2 },
+    { next: "A4", interval: "+M3", weight: 3 },
+    { next: "C5", interval: "+P5", weight: 2 },
+    { next: "E5", interval: "+m7", weight: 1 },
+    { next: "F4", interval: "P1", weight: 2, cadence: true },
+  ],
+  G4: [
+    { next: "A4", interval: "+M2", weight: 2 },
+    { next: "B4", interval: "+m3", weight: 3 },
+    { next: "D5", interval: "+P5", weight: 2 },
+    { next: "F5", interval: "+m7", weight: 1 },
+    { next: "G4", interval: "P1", weight: 2, cadence: true },
+  ],
+  A4: [
+    { next: "B4", interval: "+M2", weight: 2 },
+    { next: "C5", interval: "+m3", weight: 3 },
+    { next: "E5", interval: "+P5", weight: 2 },
+    { next: "G5", interval: "+m7", weight: 1 },
+    { next: "A4", interval: "P1", weight: 2, cadence: true },
+  ],
+  B4: [
+    { next: "C5", interval: "+m2", weight: 2 },
+    { next: "D5", interval: "+m3", weight: 3 },
+    { next: "F5", interval: "+P4", weight: 2 },
+    { next: "A5", interval: "+m7", weight: 1 },
+    { next: "B4", interval: "P1", weight: 2, cadence: true },
+  ],
+  C5: [
+    { next: "A4", interval: "-m3", weight: 3 },
+    { next: "G4", interval: "-P4", weight: 2 },
+    { next: "E4", interval: "-m6", weight: 1 },
+    { next: "D4", interval: "-m7", weight: 2 },
+    { next: "C5", interval: "P1", weight: 2, cadence: true },
+  ],
+};
+
+const JAZZ_CHORD_TABLE: Partial<Record<NoteName, TransitionRule[]>> = {
+  C3: [
+    { next: "F3", interval: "+P4", weight: 3 },
+    { next: "G3", interval: "+P5", weight: 3 },
+    { next: "B3", interval: "+m7", weight: 1 },
+    { next: "C3", interval: "P1", weight: 2, cadence: true },
+  ],
+  D3: [
+    { next: "G3", interval: "+P4", weight: 3 },
+    { next: "A3", interval: "+P5", weight: 3 },
+    { next: "C4", interval: "+m7", weight: 1 },
+    { next: "D3", interval: "P1", weight: 2, cadence: true },
+  ],
+  E3: [
+    { next: "A3", interval: "+P4", weight: 3 },
+    { next: "B3", interval: "+P5", weight: 3 },
+    { next: "D4", interval: "+m7", weight: 1 },
+    { next: "E3", interval: "P1", weight: 2, cadence: true },
+  ],
+  F3: [
+    { next: "B3", interval: "+tritone", weight: 2 },
+    { next: "C4", interval: "+P4", weight: 3 },
+    { next: "E4", interval: "+m7", weight: 1 },
+    { next: "F3", interval: "P1", weight: 2, cadence: true },
+  ],
+  G3: [
+    { next: "C4", interval: "+P4", weight: 3 },
+    { next: "D4", interval: "+P5", weight: 3 },
+    { next: "F4", interval: "+m7", weight: 1 },
+    { next: "G3", interval: "P1", weight: 2, cadence: true },
+  ],
+  A3: [
+    { next: "D4", interval: "+P4", weight: 3 },
+    { next: "E4", interval: "+P5", weight: 3 },
+    { next: "G4", interval: "+m7", weight: 1 },
+    { next: "A3", interval: "P1", weight: 2, cadence: true },
+  ],
+  B3: [
+    { next: "E4", interval: "+P4", weight: 3 },
+    { next: "F4", interval: "+tritone", weight: 2 },
+    { next: "A4", interval: "+m7", weight: 1 },
+    { next: "B3", interval: "P1", weight: 2, cadence: true },
+  ],
+  C4: [
+    { next: "F4", interval: "+P4", weight: 3 },
+    { next: "G4", interval: "+P5", weight: 3 },
+    { next: "B4", interval: "+m7", weight: 1 },
+    { next: "C3", interval: "-P8", weight: 1 },
+    { next: "C4", interval: "P1", weight: 2, cadence: true },
+  ],
+};
+
+// ============ FOLK: PENTATÓNICO Y REPETITIVO ============
+
+const FOLK_MELODY_TABLE: Partial<Record<NoteName, TransitionRule[]>> = {
+  C4: [
+    { next: "C4", interval: "P1", weight: 4, cadence: true },
+    { next: "D4", interval: "+M2", weight: 3 },
+    { next: "E4", interval: "+M3", weight: 2 },
+    { next: "G4", interval: "+P5", weight: 2 },
+    { next: "A4", interval: "+M6", weight: 1 },
+  ],
+  D4: [
+    { next: "D4", interval: "P1", weight: 4, cadence: true },
+    { next: "E4", interval: "+M2", weight: 3 },
+    { next: "G4", interval: "+P4", weight: 2 },
+    { next: "A4", interval: "+P5", weight: 2 },
+    { next: "C4", interval: "-M2", weight: 1 },
+  ],
+  E4: [
+    { next: "E4", interval: "P1", weight: 4, cadence: true },
+    { next: "G4", interval: "+m3", weight: 3 },
+    { next: "A4", interval: "+P4", weight: 2 },
+    { next: "C5", interval: "+m6", weight: 2 },
+    { next: "D4", interval: "-M2", weight: 1 },
+  ],
+  G4: [
+    { next: "G4", interval: "P1", weight: 4, cadence: true },
+    { next: "A4", interval: "+M2", weight: 3 },
+    { next: "C5", interval: "+M3", weight: 2 },
+    { next: "D5", interval: "+P5", weight: 1 },
+    { next: "E4", interval: "-P4", weight: 1 },
+  ],
+  A4: [
+    { next: "A4", interval: "P1", weight: 4, cadence: true },
+    { next: "C5", interval: "+m3", weight: 3 },
+    { next: "D5", interval: "+P4", weight: 2 },
+    { next: "E5", interval: "+P5", weight: 1 },
+    { next: "G4", interval: "-M2", weight: 1 },
+  ],
+  C5: [
+    { next: "C5", interval: "P1", weight: 4, cadence: true },
+    { next: "A4", interval: "-m3", weight: 2 },
+    { next: "G4", interval: "-P4", weight: 2 },
+    { next: "E4", interval: "-m6", weight: 1 },
+    { next: "C4", interval: "-P8", weight: 1 },
+  ],
+};
+
+const FOLK_CHORD_TABLE: Partial<Record<NoteName, TransitionRule[]>> = {
+  C3: [
+    { next: "C3", interval: "P1", weight: 5, cadence: true },
+    { next: "G3", interval: "+P5", weight: 2 },
+    { next: "F3", interval: "+P4", weight: 1 },
+  ],
+  D3: [
+    { next: "D3", interval: "P1", weight: 5, cadence: true },
+    { next: "A3", interval: "+P5", weight: 2 },
+    { next: "G3", interval: "+P4", weight: 1 },
+  ],
+  E3: [
+    { next: "E3", interval: "P1", weight: 5, cadence: true },
+    { next: "B3", interval: "+P5", weight: 2 },
+    { next: "A3", interval: "+P4", weight: 1 },
+  ],
+  G3: [
+    { next: "G3", interval: "P1", weight: 5, cadence: true },
+    { next: "D4", interval: "+P5", weight: 2 },
+    { next: "C4", interval: "+P4", weight: 1 },
+  ],
+  A3: [
+    { next: "A3", interval: "P1", weight: 5, cadence: true },
+    { next: "E4", interval: "+P5", weight: 2 },
+    { next: "D4", interval: "+P4", weight: 1 },
+  ],
+  C4: [
+    { next: "C4", interval: "P1", weight: 5, cadence: true },
+    { next: "G4", interval: "+P5", weight: 2 },
+    { next: "F4", interval: "+P4", weight: 1 },
+  ],
+};
+
 export const GENRE_RULES: Record<GenreId, GenreDefinition> = {
   pop: {
     id: "pop",
@@ -468,6 +766,36 @@ export const GENRE_RULES: Record<GenreId, GenreDefinition> = {
     chordNotePool: CHORD_POOL_LIST,
     melodyTable: CUNA_MELODY_TABLE,
     chordTable: CUNA_CHORD_TABLE,
+  },
+  classical: {
+    id: "classical",
+    label: "Clásica",
+    description: "Lineal y elegante, progresión diatónica.",
+    cadenceEvery: 8,
+    notePool: NOTE_POOL_LIST,
+    chordNotePool: CHORD_POOL_LIST,
+    melodyTable: CLASSICAL_MELODY_TABLE,
+    chordTable: CLASSICAL_CHORD_TABLE,
+  },
+  jazz: {
+    id: "jazz",
+    label: "Jazz",
+    description: "Improvisativo, blue notes y libertad armónica.",
+    cadenceEvery: 5,
+    notePool: NOTE_POOL_LIST,
+    chordNotePool: CHORD_POOL_LIST,
+    melodyTable: JAZZ_MELODY_TABLE,
+    chordTable: JAZZ_CHORD_TABLE,
+  },
+  folk: {
+    id: "folk",
+    label: "Folk",
+    description: "Pentatónico, repetitivo y accesible.",
+    cadenceEvery: 6,
+    notePool: NOTE_POOL_LIST,
+    chordNotePool: CHORD_POOL_LIST,
+    melodyTable: FOLK_MELODY_TABLE,
+    chordTable: FOLK_CHORD_TABLE,
   },
 };
 

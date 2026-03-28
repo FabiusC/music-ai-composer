@@ -495,6 +495,20 @@ body {
     background-color: var(--color-bg-slate-50);
 }
 
+.btn-danger {
+    background-color: #dc2626;
+    color: var(--color-text-white);
+}
+
+.btn-danger:not(:disabled):hover {
+    background-color: #b91c1c;
+}
+
+.btn-small {
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: 0.75rem;
+}
+
 .genre-status {
     margin-bottom: var(--spacing-4);
     font-size: var(--font-size-sm);
@@ -503,6 +517,47 @@ body {
 
 .genre-status strong {
     color: var(--color-text-slate-900);
+}
+
+.model-recommendation {
+    margin-bottom: var(--spacing-5);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(252, 163, 17, 0.35);
+    background: linear-gradient(135deg, rgba(252, 163, 17, 0.12), rgba(20, 33, 61, 0.05));
+    padding: var(--spacing-4);
+}
+
+.model-recommendation__label {
+    margin: 0 0 var(--spacing-1) 0;
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-slate-600);
+    font-weight: 700;
+}
+
+.model-recommendation__title {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    color: var(--color-text-slate-900);
+}
+
+.model-recommendation__reason {
+    margin: var(--spacing-2) 0 0 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-slate-700);
+}
+
+.model-recommendation__actions {
+    margin-top: var(--spacing-3);
+    display: flex;
+    gap: var(--spacing-2);
+    flex-wrap: wrap;
+}
+
+.model-recommendation--compact {
+    margin-bottom: var(--spacing-4);
+    padding: var(--spacing-3);
 }
 
 /* ============================================
@@ -707,7 +762,7 @@ body {
     background-color: var(--color-bg-panel);
     overflow: hidden;
     height: 100%;
-    max-height: 600px;
+    max-height: 210px;
 }
 
 @media (max-width: 767px) {
@@ -716,7 +771,7 @@ body {
     }
 
     .piano-roll__container {
-        max-height: 460px;
+        max-height: 160px;
     }
 }
 
@@ -738,7 +793,7 @@ body {
 
 .piano-roll__key {
     flex: 1;
-    min-height: 44px;
+    min-height: 24px;
     border-bottom: 1px solid var(--color-border-light);
     display: flex;
     align-items: center;
@@ -778,7 +833,7 @@ body {
         linear-gradient(90deg,
             var(--color-border-light) 1px,
             transparent 1px);
-    background-size: 100% 44px;
+    background-size: 100% 24px;
     background-position: 0 0;
 }
 
