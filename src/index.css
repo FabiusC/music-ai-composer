@@ -116,8 +116,15 @@ body {
 .app-container {
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     width: 100%;
     overflow-x: hidden;
+}
+
+@media (min-width: 1024px) {
+    .app-container {
+        flex-direction: row;
+    }
 }
 
 .app-main {
@@ -140,9 +147,17 @@ body {
 
 @media (min-width: 768px) {
     .sidebar {
+        padding: var(--spacing-6);
+    }
+}
+
+@media (min-width: 1024px) {
+    .sidebar {
         width: 320px;
         min-height: 100vh;
-        padding: var(--spacing-6);
+        position: sticky;
+        top: 0;
+        align-self: flex-start;
     }
 }
 
@@ -179,6 +194,32 @@ body {
     flex-direction: column;
     gap: var(--spacing-3);
     flex: 1;
+}
+
+@media (max-width: 767px) {
+    .sidebar__header {
+        margin-bottom: var(--spacing-3);
+    }
+
+    .sidebar__info-box {
+        margin-bottom: var(--spacing-3);
+    }
+
+    .sidebar__nav {
+        gap: var(--spacing-2);
+    }
+
+    .sidebar__nav-item {
+        padding: var(--spacing-2) var(--spacing-3);
+    }
+
+    .sidebar__nav-item-subtitle {
+        display: none;
+    }
+
+    .sidebar__nav-item-badge {
+        font-size: 0.56rem;
+    }
 }
 
 .sidebar__nav-item {
@@ -296,6 +337,17 @@ body {
     overflow: hidden;
 }
 
+@media (max-width: 767px) {
+    .music-canvas {
+        padding: var(--spacing-2);
+    }
+
+    .music-canvas__container {
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-3);
+    }
+}
+
 @media (min-width: 768px) {
     .music-canvas__container {
         padding: var(--spacing-8);
@@ -341,14 +393,25 @@ body {
     gap: var(--spacing-3);
 }
 
+@media (max-width: 767px) {
+    .canvas-controls {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2);
+        width: 100%;
+    }
+}
+
 .select-control {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
     font-size: var(--font-size-sm);
     color: var(--color-text-slate-700);
     font-weight: 500;
 }
 
 .select-control select {
-    margin-left: var(--spacing-2);
     border-radius: var(--radius-lg);
     border: 1px solid var(--color-border-slate-300);
     background-color: var(--color-bg-panel);
@@ -369,6 +432,19 @@ body {
     box-shadow: 0 0 0 3px rgba(252, 163, 17, 0.1);
 }
 
+@media (max-width: 767px) {
+    .select-control {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-1);
+    }
+
+    .select-control select {
+        width: 100%;
+    }
+}
+
 .btn {
     padding: var(--spacing-2) var(--spacing-4);
     border-radius: var(--radius-lg);
@@ -378,6 +454,12 @@ body {
     font-size: var(--font-size-sm);
     transition: all 0.2s ease;
     font-family: inherit;
+}
+
+@media (max-width: 767px) {
+    .btn {
+        width: 100%;
+    }
 }
 
 .btn:disabled {
@@ -628,6 +710,16 @@ body {
     max-height: 600px;
 }
 
+@media (max-width: 767px) {
+    .piano-roll {
+        gap: var(--spacing-2);
+    }
+
+    .piano-roll__container {
+        max-height: 460px;
+    }
+}
+
 .piano-roll__keys {
     display: flex;
     flex-direction: column;
@@ -636,6 +728,12 @@ body {
     border-right: 1px solid var(--color-border-slate-300);
     overflow-y: hidden;
     flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+    .piano-roll__keys {
+        width: 56px;
+    }
 }
 
 .piano-roll__key {
@@ -650,6 +748,13 @@ body {
     font-weight: 600;
     color: var(--color-text-slate-600);
     user-select: none;
+}
+
+@media (max-width: 767px) {
+    .piano-roll__key {
+        padding-right: var(--spacing-1);
+        font-size: 0.58rem;
+    }
 }
 
 .piano-roll__key--current {
@@ -694,6 +799,12 @@ body {
     padding: 0px;
     will-change: transform;
     box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+    .piano-roll__note {
+        font-size: 0.55rem;
+    }
 }
 
 .piano-roll__note:hover {
@@ -762,6 +873,19 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--spacing-4);
+}
+
+@media (max-width: 767px) {
+    .piano-roll__status {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2);
+        padding: var(--spacing-2) var(--spacing-3);
+    }
+
+    .piano-roll__status-item {
+        justify-content: space-between;
+        font-size: var(--font-size-xs);
+    }
 }
 
 .piano-roll__status-item {
